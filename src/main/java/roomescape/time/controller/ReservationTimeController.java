@@ -38,7 +38,7 @@ public class ReservationTimeController {
         return ResponseEntity.status(deletedStatus.getHttpStatus()).build();
     }
 
-    @GetMapping("/available-times")
+    @GetMapping("/available")
     public ResponseEntity<List<ReservationTimeUserResponseDto>> findByDateAndThemeId(@RequestParam final String date, @RequestParam final Long themeId) {
         List<ReservationTimeUserResponseDto> availableTimes = reservationTimeService.findByDateAndThemeId(date, themeId);
         return ResponseEntity.ok(availableTimes);

@@ -59,6 +59,6 @@ public class ReservationTimeDao {
                 "EXISTS (SELECT 1 FROM reservation r WHERE r.time_id = t.id AND r.date = ? AND r.theme_id = ?) " +
                 "AS already_booked " +
                 "FROM reservation_time t";
-        return jdbcTemplate.query(sql, timeRowMapper);
+        return jdbcTemplate.query(sql, timeRowMapper, date, themeId);
     }
 }
