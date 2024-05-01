@@ -9,6 +9,13 @@ CREATE TABLE reservation_time
     PRIMARY KEY (id)
 );
 
+INSERT INTO reservation_time (start_at)
+VALUES ('10:00');
+INSERT INTO reservation_time (start_at)
+VALUES ('11:00');
+INSERT INTO reservation_time (start_at)
+VALUES ('12:00');
+
 CREATE TABLE theme
 (
     id          BIGINT       NOT NULL AUTO_INCREMENT,
@@ -17,6 +24,17 @@ CREATE TABLE theme
     thumbnail   VARCHAR(255) NOT NULL,
     PRIMARY KEY (id)
 );
+
+INSERT INTO theme (name, description, thumbnail)
+VALUES ('Red', 'It is red', 'R');
+INSERT INTO theme (name, description, thumbnail)
+VALUES ('Orange', 'It is orange', 'O');
+INSERT INTO theme (name, description, thumbnail)
+VALUES ('Yellow', 'It is yellow', 'Y');
+INSERT INTO theme (name, description, thumbnail)
+VALUES ('Green', 'It is green', 'G');
+INSERT INTO theme (name, description, thumbnail)
+VALUES ('Blue', 'It is blue', 'B');
 
 CREATE TABLE reservation
 (
