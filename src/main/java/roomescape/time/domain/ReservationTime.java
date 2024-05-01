@@ -11,20 +11,11 @@ public class ReservationTime {
 
     private final Long id;
     private final LocalTime startAt;
-    private final Boolean alreadyBooked;
 
     public ReservationTime(final Long id, final String startAt) {
         validateTimeIsNotNull(startAt);
         this.id = id;
         this.startAt = LocalTime.parse(startAt, TIME_FORMAT);
-        this.alreadyBooked = null;
-    }
-
-    public ReservationTime(final Long id, final String startAt, Boolean alreadyBooked) {
-        validateTimeIsNotNull(startAt);
-        this.id = id;
-        this.startAt = LocalTime.parse(startAt, TIME_FORMAT);
-        this.alreadyBooked = alreadyBooked;
     }
 
     private void validateTimeIsNotNull(final String time) {
@@ -43,10 +34,6 @@ public class ReservationTime {
 
     public LocalTime getStartAt() {
         return startAt;
-    }
-
-    public Boolean getAlreadyBooked() {
-        return alreadyBooked;
     }
 
     @Override
