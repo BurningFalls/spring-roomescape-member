@@ -7,6 +7,7 @@ import roomescape.time.dao.ReservationTimeDao;
 import roomescape.time.domain.ReservationTime;
 import roomescape.time.dto.ReservationTimeRequestDto;
 import roomescape.time.dto.ReservationTimeResponseDto;
+import roomescape.time.dto.ReservationTimeUserResponseDto;
 
 import java.util.List;
 
@@ -41,5 +42,9 @@ public class ReservationTimeService {
         } catch (final DataAccessException dataAccessException) {
             return ResponseCode.FAILED_DELETE;
         }
+    }
+
+    public List<ReservationTimeUserResponseDto> findByDateAndThemeId(final String date, final Long themeId) {
+        return reservationTimeDao.findByDateAndThemeId(date, themeId);
     }
 }

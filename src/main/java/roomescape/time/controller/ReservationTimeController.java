@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import roomescape.response.ResponseCode;
 import roomescape.time.dto.ReservationTimeRequestDto;
 import roomescape.time.dto.ReservationTimeResponseDto;
+import roomescape.time.dto.ReservationTimeUserResponseDto;
 import roomescape.time.service.ReservationTimeService;
 
 import java.net.URI;
@@ -33,7 +34,13 @@ public class ReservationTimeController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") final long id) {
-        final ResponseCode deletedStatus = reservationTimeService.deleteById(id);
+        ResponseCode deletedStatus = reservationTimeService.deleteById(id);
         return ResponseEntity.status(deletedStatus.getHttpStatus()).build();
+    }
+
+    @GetMapping("/available-times")
+    public ResponseEntity<List<ReservationTimeUserResponseDto>> findByDateAndThemeId(@RequestParam final String date, @RequestParam final Long themeId) {
+        List<ReservationTimeUserResponseDto> availableTimes = reservationTimeService.findByDateAndThemeId(date, themeId);
+        return ResponseEntity.ok(availableTimes);
     }
 }

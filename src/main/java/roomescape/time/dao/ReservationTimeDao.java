@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import roomescape.time.domain.ReservationTime;
+import roomescape.time.dto.ReservationTimeUserResponseDto;
 
 import javax.sql.DataSource;
 import java.util.List;
@@ -44,5 +45,20 @@ public class ReservationTimeDao {
     public int deleteById(final long id) {
         final String sql = "delete from reservation_time where id = ?";
         return jdbcTemplate.update(sql, id);
+    }
+
+    private final RowMapper<ReservationTimeUserResponseDto> timeRowMapper = (resultSet, rowNum) -> {
+        return new ReservationTimeUserResponseDto(
+                resultSet.getLong("id"),
+                resultSet.getString("start_at"),
+                resultSet.getBoolean("already_booked"));
+    };
+
+    public List<ReservationTimeUserResponseDto> findByDateAndThemeId(final String date, final Long themeId) {
+        final String sql = "SELECT t.id, t.start_at, " +
+                "EXISTS (SELECT 1 FROM reservation r WHERE r.time_id = t.id AND r.date = ? AND r.theme_id = ?) " +
+                "AS already_booked " +
+                "FROM reservation_time t";
+        return jdbcTemplate.query(sql, timeRowMapper);
     }
 }
