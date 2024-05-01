@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import roomescape.reservation.domain.Reservation;
+import roomescape.theme.domain.Theme;
 import roomescape.time.dao.ReservationTimeDao;
 import roomescape.time.domain.ReservationTime;
 
@@ -25,8 +26,9 @@ class ReservationDaoTest {
     @Autowired
     private ReservationTimeDao reservationTimeDao;
 
+    private final Theme theme = new Theme(1L, "red", "It is red", "R");
     private final ReservationTime reservationTime = new ReservationTime(1L, "10:00");
-    private final Reservation reservation = new Reservation(1L, "hotea", LocalDate.MAX.toString(), reservationTime);
+    private final Reservation reservation = new Reservation(1L, "hotea", LocalDate.MAX.toString(), reservationTime, theme);
 
     @Test
     @DisplayName("특정 예약을 생성할 수 있다.")

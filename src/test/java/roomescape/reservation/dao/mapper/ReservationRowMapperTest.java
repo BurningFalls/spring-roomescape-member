@@ -3,6 +3,7 @@ package roomescape.reservation.dao.mapper;
 import org.h2.tools.SimpleResultSet;
 import org.junit.jupiter.api.Test;
 import roomescape.reservation.domain.Reservation;
+import roomescape.theme.domain.Theme;
 import roomescape.time.domain.ReservationTime;
 
 import java.sql.SQLException;
@@ -26,7 +27,7 @@ class ReservationRowMapperTest {
         rs.addRow(1, "hotea", LocalDate.MAX.toString(), 1, "10:00");
         rs.next();
 
-        Reservation reservation = new Reservation(1L, "hotea", LocalDate.MAX.toString(), new ReservationTime(1L, "10:00"));
+        Reservation reservation = new Reservation(1L, "hotea", LocalDate.MAX.toString(), new ReservationTime(1L, "10:00"), new Theme(1L, "red", "It is red", "R"));
         assertThat(reservationRowMapper.mapRow(rs, 1)).isEqualTo(reservation);
     }
 }

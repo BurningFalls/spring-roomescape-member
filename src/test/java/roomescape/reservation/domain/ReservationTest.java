@@ -6,6 +6,7 @@ import roomescape.exception.InvalidNameException;
 import roomescape.exception.NullPointDateException;
 import roomescape.exception.PastDateReservationException;
 import roomescape.exception.PastTimeReservationException;
+import roomescape.theme.domain.Theme;
 import roomescape.time.domain.ReservationTime;
 
 import java.time.LocalDate;
@@ -17,17 +18,18 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 class ReservationTest {
 
+    private final Theme theme = new Theme(1L, "red", "It is red", "R");
+    private final ReservationTime reservationTime = new ReservationTime(1L, "15:46");
+
     @DisplayName("이름이 null 혹은 공백인 경우 예외가 발생한다")
     @Test
     void validateNameExist() {
-        ReservationTime reservationTime = new ReservationTime(1L, "15:46");
-
         assertAll(
-                () -> assertThatThrownBy(() -> new Reservation(1L, null, "2024-04-30", reservationTime))
+                () -> assertThatThrownBy(() -> new Reservation(1L, null, "2024-04-30", reservationTime, theme))
                         .isInstanceOf(InvalidNameException.class),
-                () -> assertThatThrownBy(() -> new Reservation(1L, "", "2024-04-30", reservationTime))
+                () -> assertThatThrownBy(() -> new Reservation(1L, "", "2024-04-30", reservationTime, theme))
                         .isInstanceOf(InvalidNameException.class),
-                () -> assertThatThrownBy(() -> new Reservation(1L, " ", "2024-04-30", reservationTime))
+                () -> assertThatThrownBy(() -> new Reservation(1L, " ", "2024-04-30", reservationTime, theme))
                         .isInstanceOf(InvalidNameException.class)
         );
     }
@@ -38,11 +40,11 @@ class ReservationTest {
         ReservationTime reservationTime = new ReservationTime(1L, "15:46");
 
         assertAll(
-                () -> assertThatThrownBy(() -> new Reservation(1L, "hotea", null, reservationTime))
+                () -> assertThatThrownBy(() -> new Reservation(1L, "hotea", null, reservationTime, theme))
                         .isInstanceOf(NullPointDateException.class),
-                () -> assertThatThrownBy(() -> new Reservation(1L, "hotea", "2024-14-30", reservationTime))
+                () -> assertThatThrownBy(() -> new Reservation(1L, "hotea", "2024-14-30", reservationTime, theme))
                         .isInstanceOf(DateTimeParseException.class),
-                () -> assertThatThrownBy(() -> new Reservation(1L, "hotea", "2024-04-50", reservationTime))
+                () -> assertThatThrownBy(() -> new Reservation(1L, "hotea", "2024-04-50", reservationTime, theme))
                         .isInstanceOf(DateTimeParseException.class)
         );
     }
@@ -51,7 +53,7 @@ class ReservationTest {
     @Test
     void validateNoReservationsForPastDates() {
         ReservationTime reservationTime = new ReservationTime(1L, "15:46");
-        assertThatThrownBy(() -> new Reservation(1L, "hotea", "2022-02-12", reservationTime))
+        assertThatThrownBy(() -> new Reservation(1L, "hotea", "2022-02-12", reservationTime, theme))
                 .isInstanceOf(PastDateReservationException.class);
     }
 
@@ -59,7 +61,7 @@ class ReservationTest {
     @Test
     void validateNoReservationsForPastTimesToday() {
         ReservationTime reservationTime = new ReservationTime(1L, LocalTime.MIN.toString());
-        assertThatThrownBy(() -> new Reservation(1L, "hotea", LocalDate.now().toString(), reservationTime))
+        assertThatThrownBy(() -> new Reservation(1L, "hotea", LocalDate.now().toString(), reservationTime, theme))
                 .isInstanceOf(PastTimeReservationException.class);
     }
 }
