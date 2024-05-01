@@ -2,6 +2,13 @@ DROP TABLE IF EXISTS reservation;
 DROP TABLE IF EXISTS reservation_time;
 DROP TABLE IF EXISTS theme;
 
+CREATE TABLE reservation_time
+(
+    id       BIGINT       NOT NULL AUTO_INCREMENT,
+    start_at VARCHAR(255) NOT NULL,
+    PRIMARY KEY (id)
+);
+
 CREATE TABLE theme
 (
     id          BIGINT       NOT NULL AUTO_INCREMENT,
@@ -9,17 +16,6 @@ CREATE TABLE theme
     description VARCHAR(255) NOT NULL,
     thumbnail   VARCHAR(255) NOT NULL,
     PRIMARY KEY (id)
-);
-
-CREATE TABLE reservation_time
-(
-    id             BIGINT       NOT NULL AUTO_INCREMENT,
-    theme_id       BIGINT       NOT NULL,
-    date           VARCHAR(255) NOT NULL,
-    start_at       VARCHAR(255) NOT NULL,
-    already_booked BOOLEAN      NOT NULL DEFAULT FALSE,
-    PRIMARY KEY (id),
-    FOREIGN KEY (theme_id) REFERENCES theme (id)
 );
 
 CREATE TABLE reservation
