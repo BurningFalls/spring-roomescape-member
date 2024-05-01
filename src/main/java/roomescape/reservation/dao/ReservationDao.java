@@ -57,7 +57,18 @@ public class ReservationDao {
     }
 
     public int deleteById(final long id) {
-        final String sql = "delete from reservation where id = ?";
+        final String sql = "DELETE FROM reservation WHERE id = ?";
         return jdbcTemplate.update(sql, id);
+    }
+
+    public boolean checkReservationExists(final String date, final String time) {
+        String sql = "SELECT CASE WHEN COUNT(*) > 0 THEN TRUE ELSE FALSE END " +
+                "FROM reservation AS r " +
+                "INNER JOIN reservation_time AS t " +
+                "ON r.time_id = t.id " +
+                "WHERE r.date = ? AND t.start_at = ?";
+
+        Boolean result = jdbcTemplate.queryForObject(sql, Boolean.class, date, time);
+        return Boolean.TRUE.equals(result);
     }
 }
