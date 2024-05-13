@@ -5,7 +5,6 @@ import roomescape.member.domain.Member;
 import roomescape.member.repository.MemberRepository;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Service
 public class MemberService {
@@ -16,15 +15,6 @@ public class MemberService {
     }
 
     public List<Member> findMemberList() {
-        List<Member> members = memberRepository.findAll();
-        validateMemberExists(members);
-
-        return members;
-    }
-
-    private void validateMemberExists(List<Member> members) {
-        if (members.isEmpty()) {
-            throw new NoSuchElementException("멤버가 없습니다.");
-        }
+        return memberRepository.findAll();
     }
 }
