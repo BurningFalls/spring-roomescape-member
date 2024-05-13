@@ -11,7 +11,6 @@ import roomescape.member.repository.MemberRepository;
 
 import java.util.Arrays;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 public class AuthService {
@@ -24,13 +23,9 @@ public class AuthService {
     }
 
     public String createToken(MemberRequest memberRequest) {
-        Optional<Member> memberOptional = memberRepository.findByEmail(memberRequest.email());
+        Member member = memberRepository.findByEmail(memberRequest.email())
+                .orElseThrow(() -> new IllegalArgumentException("이메일 정보가 올바르지 않습니다."));
 
-        if (memberOptional.isEmpty()) {
-            throw new IllegalArgumentException("이메일 정보가 올바르지 않습니다.");
-        }
-
-        Member member = memberOptional.get();
         validatePassword(member.getPassword(), memberRequest.password());
 
         return jwtTokenProvider.createToken(member);
